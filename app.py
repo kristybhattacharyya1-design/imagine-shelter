@@ -305,12 +305,12 @@ def verify_payment():
 # Serve the main homepage
 @app.route('/')
 def home():
-    return render_template("/templates/index.html")
+    return render_template("index.html")
 
 # Serve the private admin panel
 @app.route('/admin')
 def admin_panel():
-    return render_template("/templates/admin.html")
+    return render_template("admin.html")
 
 import os
 
