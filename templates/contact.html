@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Imagine Shelter | A Quiet Place To Be Heard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+</head>
+
+<body>
+
+<!-- ===========================
+     NAVIGATION
+=========================== -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="logo">
+
+            🌿 <span>Imagine Shelter</span>
+
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="/#about">Why We Exist</a>
+
+            <a href="/#how">How It Works</a>
+
+            <a href="/#share">Share</a>
+
+            <a href="/#sessions">Sessions</a>
+
+            <a href="/#community">Community</a>
+
+        </nav>
+
+        <a href="/#share" class="nav-button">
+
+            Share Your Story
+
+        </a>
+
+    </div>
+
+</header>
+
+
+      <section class="legal-section">
+
+    <div class="container">
+   
+        <div class="legal-card">
+
+    <span class="section-tag">
+
+        Contact
+
+    </span>
+
+    <h1>
+
+        We'd love to hear from you.
+
+    </h1>
+
+    <p class="legal-intro">
+
+        Whether you have a question, feedback, or simply want to say hello,
+        we're always happy to listen.
+
+    </p>
+
+    <h2>Email</h2>
+
+    <p>
+
+        imagineshelter.help@gmail.com
+
+    </p>
+
+    <h2>Support</h2>
+
+    <p>
+
+        We aim to respond to all emails within
+        <strong>24 hours.</strong>
+
+    </p>
+
+    <h2>Listening Sessions</h2>
+
+    <p>
+
+        For questions about bookings, payments, or available sessions,
+        please include your booking date and time in your email.
+
+    </p>
+
+    <h2>Important Notice</h2>
+
+    <p>
+
+        Imagine Shelter provides compassionate emotional listening.
+        We are not a crisis service or a substitute for licensed mental health care.
+        If you are in immediate danger or experiencing an emergency,
+        please contact your local emergency services.
+
+    </p>
+
+    <h2>Thank You</h2>
+
+    <p>
+
+        Thank you for trusting Imagine Shelter.
+        Every story shared and every conversation held here is treated with respect,
+        empathy, and confidentiality.
+
+    </p>
+
+</div>
+    </div>
+
+</section>
+
+
+<!-- ===========================
+     FOOTER
+=========================== -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <h2>
+
+            Imagine Shelter
+
+        </h2>
+
+        <p>
+
+            A quiet place where people can
+            speak honestly,
+            be heard with empathy,
+            and never feel judged.
+            Protected by privacy.
+
+        </p>
+
+               <div class="footer-links">
+
+    <a href="/#about">
+
+        Why We Exist
+
+    </a>
+
+    <a href="/#share">Share</a>
+
+    <a href="/#sessions">
+
+        Sessions
+
+    </a>
+
+    <a href="/#community">
+
+        Community
+
+    </a>
+
+    <a href="/privacy">
+
+        Privacy Policy
+
+    </a>
+
+    <a href="/terms">
+
+        Terms & Conditions
+
+    </a>
+
+    <a href="/contact">
+
+        Contact
+
+    </a>
+
+</div>
+
+
+        <p class="footer-tagline">
+
+            Built with empathy.
+            Protected by privacy.
+
+        </p>
+
+        <p class="copyright">
+
+            © 2026 Imagine Shelter.
+            All Rights Reserved.
+
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<!-- ===========================
+     JAVASCRIPT
+=========================== -->
+
+<!-- Toast Notification -->
+
+<div id="toast" class="toast"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}">
+
+</script>
+
+</body>
+
+</html>

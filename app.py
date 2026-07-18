@@ -11,7 +11,7 @@ app.secret_key = "super_secret_safespace_key_12345"
 # Support credentials sharing across origins for admin sessions
 CORS(app, supports_credentials=True)
 
-DATABASE_FILE = "safespace.db"
+DATABASE = "database/safespace.db"
 
 # ⚠️ REPLACE THESE WITH YOUR ACTUAL TEST KEYS FROM RAZORPAY DASHBOARD
 RAZORPAY_KEY_ID = "rzp_test_TDE8jjyxv1Hs98"
@@ -28,7 +28,7 @@ except Exception as e:
 
 # --- DATABASE INITIALIZATION ---
 def init_db():
-    conn = sqlite3.connect(DATABASE_FILE)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS vents (
@@ -103,7 +103,7 @@ def delete_vent(vent_id):
     if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 403
         
-    conn = sqlite3.connect(DATABASE_FILE)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     # Delete child replies first to maintain relational database integrity
     cursor.execute("DELETE FROM replies WHERE vent_id = ?", (vent_id,))
@@ -118,7 +118,7 @@ def reset_slot(slot_id):
     if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 403
         
-    conn = sqlite3.connect(DATABASE_FILE)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("UPDATE bookings SET status = 'available', room_link = NULL WHERE id = ?", (slot_id,))
     conn.commit()
@@ -131,7 +131,7 @@ def delete_slot(slot_id):
     if not is_admin_authenticated():
         return jsonify({"error": "Unauthorized"}), 403
         
-    conn = sqlite3.connect(DATABASE_FILE)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("DELETE FROM bookings WHERE id = ?", (slot_id,))
     conn.commit()
@@ -151,7 +151,7 @@ def add_slot():
     if not date or not time:
         return jsonify({"error": "Missing date or time"}), 400
         
-    conn = sqlite3.connect(DATABASE_FILE)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("INSERT INTO bookings (date, time, status) VALUES (?, ?, 'available')", (date, time))
     conn.commit()
@@ -161,7 +161,7 @@ def add_slot():
 # --- PUBLIC ROUTINES (KEEP EXISTING BACKEND FUNCTIONALITY) ---
 @app.route('/api/vents', methods=['GET'])
 def get_vents():
-    conn = sqlite3.connect(DATABASE_FILE)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("SELECT id, content FROM vents ORDER BY id DESC")
     vents = cursor.fetchall()
@@ -186,7 +186,7 @@ def post_vent():
     if not content:
         return jsonify({"error": "Content cannot be empty"}), 400
         
-    conn = sqlite3.connect(DATABASE_FILE)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("INSERT INTO vents (content) VALUES (?)", (content,))
     conn.commit()
@@ -200,7 +200,7 @@ def post_reply(vent_id):
     if not content:
         return jsonify({"error": "Reply cannot be empty"}), 400
         
-    conn = sqlite3.connect(DATABASE_FILE)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("INSERT INTO replies (vent_id, content) VALUES (?, ?)", (vent_id, content))
     conn.commit()
@@ -209,7 +209,7 @@ def post_reply(vent_id):
 
 @app.route('/api/slots', methods=['GET'])
 def get_slots():
-    conn = sqlite3.connect(DATABASE_FILE)
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute("SELECT id, date, time, status, room_link FROM bookings")
     slots = cursor.fetchall()
@@ -236,7 +236,7 @@ def create_order():
     amount_rupees = data.get('amount') 
     
     try:
-        conn = sqlite3.connect(DATABASE_FILE)
+        conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         cursor.execute("SELECT status FROM bookings WHERE id = ?", (slot_id,))
         slot_status = cursor.fetchone()
@@ -272,7 +272,7 @@ def verify_payment():
 
     data = request.get_json()
     slot_id = data.get('slot_id')
-    payment_id = data.get('razorpay_payment_id')
+    payment_id = data.get('razorpay_payment_id') 
     order_id = data.get('razorpay_order_id')
     signature = data.get('razorpay_signature')
 
@@ -285,7 +285,7 @@ def verify_payment():
         
         razorpay_client.utility.verify_payment_signature(params_dict)
         
-        conn = sqlite3.connect(DATABASE_FILE)
+        conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         
         random_room_name = f"SafeSpace-{uuid.uuid4().hex[:12]}"
@@ -311,6 +311,22 @@ def home():
 @app.route('/admin')
 def admin_panel():
     return render_template("admin.html")
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
+
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
 
 import os
 

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Imagine Shelter | A Quiet Place To Be Heard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+</head>
+
+<body>
+
+<!-- ===========================
+     NAVIGATION
+=========================== -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="logo">
+
+            🌿 <span>Imagine Shelter</span>
+
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="/#about">Why We Exist</a>
+
+            <a href="/#how">How It Works</a>
+
+            <a href="/#share">Share</a>
+
+            <a href="/#sessions">Sessions</a>
+
+            <a href="/#community">Community</a>
+
+        </nav>
+
+        <a href="/#share" class="nav-button">
+
+            Share Your Story
+
+        </a>
+
+    </div>
+
+</header>
+
+
+      <section class="legal-section">
+
+    <div class="container">
+   
+          <div class="legal-card">
+
+         <span class="section-tag">
+
+                Terms & Conditions
+
+        </span>
+
+    <h1>
+
+        Terms of Use
+
+    </h1>
+
+    <p class="legal-intro">
+
+        By using Imagine Shelter, you agree to these terms.
+        Our goal is to provide a safe, respectful, and supportive space
+        for everyone.
+
+    </p>
+
+    <h2>Listening Sessions</h2>
+
+    <p>
+
+        Listening sessions are designed to offer compassionate,
+        non-judgmental emotional support.
+        They are not therapy, counselling,
+        or a replacement for licensed mental health professionals.
+
+    </p>
+
+    <h2>Respectful Use</h2>
+
+    <p>
+
+        Users must not post abusive,
+        hateful,
+        threatening,
+        illegal,
+        or harmful content.
+        Imagine Shelter reserves the right to remove such content.
+
+    </p>
+
+    <h2>Payments</h2>
+
+    <p>
+
+        Payments are securely processed through Razorpay.
+        Prices may change in the future,
+        but confirmed bookings remain valid.
+
+    </p>
+
+    <h2>Refund Policy</h2>
+
+    <p>
+
+        If Imagine Shelter needs to cancel a confirmed listening session,
+        a full refund will be issued.
+        Refunds for missed appointments or last-minute cancellations
+        are handled on a case-by-case basis.
+
+    </p>
+
+    <h2>Limitation of Service</h2>
+
+    <p>
+
+        Imagine Shelter provides emotional listening,
+        not medical,
+        psychiatric,
+        or emergency support.
+        If you are in immediate danger,
+        please contact your local emergency services.
+
+    </p>
+
+    <h2>Changes</h2>
+
+    <p>
+
+        These terms may be updated as the platform evolves.
+        Continued use of the website indicates acceptance
+        of the latest version.
+
+    </p>
+
+</div>
+
+    </div>
+
+</section>
+
+
+<!-- ===========================
+     FOOTER
+=========================== -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <h2>
+
+            Imagine Shelter
+
+        </h2>
+
+        <p>
+
+            A quiet place where people can
+            speak honestly,
+            be heard with empathy,
+            and never feel judged.
+            Protected by privacy.
+
+        </p>
+
+               <div class="footer-links">
+
+    <a href="/#about">
+
+        Why We Exist
+
+    </a>
+
+    <a href="/#share">
+
+        Share
+
+    </a>
+
+    <a href="/#sessions">
+
+        Sessions
+
+    </a>
+
+    <a href="/#community">
+
+        Community
+
+    </a>
+
+    <a href="/privacy">
+
+        Privacy Policy
+
+    </a>
+
+    <a href="/terms">
+
+        Terms & Conditions
+
+    </a>
+
+    <a href="/contact">
+
+        Contact
+
+    </a>
+
+</div>
+
+
+        <p class="footer-tagline">
+
+            Built with empathy.
+            Protected by privacy.
+
+        </p>
+
+        <p class="copyright">
+
+            © 2026 Imagine Shelter.
+            All Rights Reserved.
+
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<!-- ===========================
+     JAVASCRIPT
+=========================== -->
+
+<!-- Toast Notification -->
+
+<div id="toast" class="toast"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}">
+
+</script>
+
+</body>
+
+</html>

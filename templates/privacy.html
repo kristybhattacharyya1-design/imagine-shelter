@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Imagine Shelter | A Quiet Place To Be Heard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+</head>
+
+<body>
+
+<!-- ===========================
+     NAVIGATION
+=========================== -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="/" class="logo">
+
+            🌿 <span>Imagine Shelter</span>
+
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="/#about">Why We Exist</a>
+
+            <a href="/#how">How It Works</a>
+
+            <a href="/#share">Share</a>
+
+            <a href="/#sessions">Sessions</a>
+
+            <a href="/#community">Community</a>
+
+        </nav>
+
+        <a href="/#share" class="nav-button">
+
+            Share Your Story
+
+        </a>
+
+    </div>
+
+</header>
+
+
+      <section class="legal-section">
+
+    <div class="container">
+
+        <div class="legal-card">
+
+            <span class="section-tag">
+
+                Privacy Policy
+
+            </span>
+
+            <h1>
+
+                Your privacy matters.
+
+            </h1>
+
+            <p class="legal-intro">
+
+                Imagine Shelter was created as a quiet place where people can
+                share their thoughts without fear of judgement.
+                Protecting your privacy is one of our highest priorities.
+
+            </p>
+
+            <h2>Anonymous Stories</h2>
+
+            <p>
+
+                Stories shared through Imagine Shelter are anonymous.
+                We do not ask for your name or require an account to submit a story.
+
+            </p>
+
+            <h2>Listening Sessions</h2>
+
+            <p>
+
+                When you book a listening session,
+                payments are securely processed through Razorpay.
+                Imagine Shelter never stores your card or banking details.
+
+            </p>
+
+            <h2>Information We Store</h2>
+
+            <ul>
+
+                <li>Anonymous stories you choose to share.</li>
+
+                <li>Booking details needed to reserve your session.</li>
+
+                <li>Basic technical information required for the website to function.</li>
+
+            </ul>
+
+            <h2>Information We Don't Sell</h2>
+
+            <p>
+
+                We never sell your anonymous stories or personal information
+                to advertisers or third parties.
+
+            </p>
+
+            <h2>Your Responsibility</h2>
+
+            <p>
+
+                Please avoid sharing passwords,
+                banking information,
+                government IDs,
+                or other highly sensitive personal details
+                in your stories.
+
+            </p>
+
+            <h2>Contact</h2>
+
+            <p>
+
+                Questions about this Privacy Policy?
+
+                <br><br>
+
+                imagineshelter.help@gmail.com
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ===========================
+     FOOTER
+=========================== -->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <h2>
+
+            Imagine Shelter
+
+        </h2>
+
+        <p>
+
+            A quiet place where people can
+            speak honestly,
+            be heard with empathy,
+            and never feel judged.
+            Protected by privacy.
+
+        </p>
+
+               <div class="footer-links">
+
+    <a href="/#about">
+
+        Why We Exist
+
+    </a>
+
+    <a href="/#share">
+
+        Share
+
+    </a>
+
+    <a href="/#sessions">
+
+        Sessions
+
+    </a>
+
+    <a href="/#community">
+
+        Community
+
+    </a>
+
+    <a href="/privacy">
+
+        Privacy Policy
+
+    </a>
+
+    <a href="/terms">
+
+        Terms & Conditions
+
+    </a>
+
+    <a href="/contact">
+
+        Contact
+
+    </a>
+
+</div>
+
+
+        <p class="footer-tagline">
+
+            Built with empathy.
+            Protected by privacy.
+
+        </p>
+
+        <p class="copyright">
+
+            © 2026 Imagine Shelter.
+            All Rights Reserved.
+
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<!-- ===========================
+     JAVASCRIPT
+=========================== -->
+
+<!-- Toast Notification -->
+
+<div id="toast" class="toast"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}">
+
+</script>
+
+</body>
+
+</html>
