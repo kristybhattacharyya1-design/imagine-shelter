@@ -13,9 +13,11 @@ CORS(app, supports_credentials=True)
 
 DATABASE = "database/safespace.db"
 
-# ⚠️ REPLACE THESE WITH YOUR ACTUAL TEST KEYS FROM RAZORPAY DASHBOARD
-RAZORPAY_KEY_ID = "rzp_test_TDE8jjyxv1Hs98"
-RAZORPAY_KEY_SECRET = "etkf2UdhaKSFR7bZ7uAux5Ba"
+# Razorpay credentials (loaded from environment variables)
+
+RAZORPAY_KEY_ID = os.environ.get("rzp_test_TDE8jjyxv1Hs98")
+
+RAZORPAY_KEY_SECRET = os.environ.get("etkf2UdhaKSFR7bZ7uAux5Ba")
 
 # 🔐 CHOOSE YOUR ADMIN PASSWORD HERE
 ADMIN_PASSWORD = "Lilith111@@" 
