@@ -3,6 +3,7 @@ from flask_cors import CORS
 import sqlite3
 import uuid
 import razorpay
+import os
 
 app = Flask(__name__)
 # Enable sessions by setting a secret key (change this to a random string)
@@ -15,9 +16,8 @@ DATABASE = "database/safespace.db"
 
 # Razorpay credentials (loaded from environment variables)
 
-RAZORPAY_KEY_ID = os.environ.get("rzp_test_TDE8jjyxv1Hs98")
-
-RAZORPAY_KEY_SECRET = os.environ.get("etkf2UdhaKSFR7bZ7uAux5Ba")
+RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET")
 
 # 🔐 CHOOSE YOUR ADMIN PASSWORD HERE
 ADMIN_PASSWORD = "Lilith111@@" 
