@@ -1,0 +1,5 @@
+User-agent: *
+
+Allow: /
+
+Sitemap: https://imagine-shelter.onrender.com/sitemap.xml

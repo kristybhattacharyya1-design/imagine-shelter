@@ -1,9 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GJ9QR11NGW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GJ9QR11NGW');
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeSpace - Secure Admin Panel</title>
+    <title>Imagine Shelter - Secure Admin Panel</title>
+
+    <meta
+    name="description"
+    content="Imagine Shelter is a safe place to anonymously share your thoughts, read stories from others, and book private listening sessions without judgement.">
+    <link rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='favicon.png') }}">
+
+      <meta property="og:title"
+      content="Imagine Shelter">
+
+<meta property="og:description"
+      content="A quiet place to be heard anonymously.">
+
+<meta property="og:type"
+      content="website">
+
+<meta property="og:url"
+      content="https://imagine-shelter.onrender.com">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         .admin-section { display: none; text-align: left; margin-top: 30px; }
