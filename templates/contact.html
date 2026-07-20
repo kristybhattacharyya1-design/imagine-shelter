@@ -24,8 +24,8 @@
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Contact /Imagine Shelter • Anonymous Stories & Listening Sessions</title>
+       
+    <title>Contact | Imagine Shelter</title>
 
     <meta
     name="description"
@@ -43,6 +43,8 @@
 <meta property="og:url"
       content="https://imagine-shelter.onrender.com">
 
+      <meta name="theme-color" content="#234233">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,11 +53,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    <link rel="icon"
-      type="image/png"
-      href="{{ url_for('static', filename='favicon.png') }}">
-
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <!-- Favicons -->
 <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -78,7 +76,11 @@
 
         <a href="/" class="logo">
 
-            🌿 <span>Imagine Shelter</span>
+            <img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="Imagine Shelter Logo"
+         class="logo-image">
+
+
 
         </a>
 
@@ -93,6 +95,8 @@
             <a href="/#sessions">Sessions</a>
 
             <a href="/#community">Community</a>
+
+        
 
         </nav>
 
@@ -132,13 +136,15 @@
 
     </p>
 
-    <h2>Email</h2>
+       <h2>Email</h2>
 
-    <p>
+<p>
 
+    <a href="mailto:imagineshelter.help@gmail.com" class="email-link">
         imagineshelter.help@gmail.com
+    </a>
 
-    </p>
+</p>
 
     <h2>Support</h2>
 

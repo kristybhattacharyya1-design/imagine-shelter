@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify,session
 from flask_cors import CORS
+from dotenv import load_dotenv
 import sqlite3
 import uuid
 import razorpay
@@ -15,6 +16,7 @@ CORS(app, supports_credentials=True)
 DATABASE = "database/safespace.db"
 
 # Razorpay credentials (loaded from environment variables)
+load_dotenv()
 
 RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET")
