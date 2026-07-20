@@ -114,6 +114,9 @@ content="A Quiet Place To Be Heard.">
 <meta name="twitter:image"
 content="https://imagine-shelter.onrender.com/static/images/og-image.png">
 
+<link rel="icon"
+      href="{{ url_for('static', filename='favicon.ico') }}">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,6 +126,13 @@ content="https://imagine-shelter.onrender.com/static/images/og-image.png">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+<link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
 
 </head>
 
@@ -136,13 +146,18 @@ content="https://imagine-shelter.onrender.com/static/images/og-image.png">
 
     <div class="nav-container">
 
+           
+        
         <a href="#" class="logo">
 
-            🌿 <span>Imagine Shelter</span>
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="Imagine Shelter Logo"
+         class="logo-image">
 
-        </a>
+            </a>
 
-        <nav class="nav-links">
+
+          <nav class="nav-links">
 
             <a href="#about">Why We Exist</a>
 

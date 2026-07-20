@@ -184,6 +184,16 @@ color:var(--primary);
 
 }
 
+.logo-image{
+
+    height:56px;
+
+    width:auto;
+
+    display:block;
+
+}
+
 .logo span{
 
 font-size:1.8rem;
