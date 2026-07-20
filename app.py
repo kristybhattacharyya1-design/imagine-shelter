@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import sqlite3
 import uuid
 import razorpay
+import traceback
 import os
 
 app = Flask(__name__)
@@ -240,36 +241,45 @@ def create_order():
 
     data = request.get_json()
     slot_id = data.get('slot_id')
-    amount_rupees = data.get('amount') 
-    
+    amount_rupees = data.get('amount')
+
     try:
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
-        cursor.execute("SELECT status FROM bookings WHERE id = ?", (slot_id,))
+
+        cursor.execute(
+            "SELECT status FROM bookings WHERE id = ?",
+            (slot_id,)
+        )
+
         slot_status = cursor.fetchone()
-        if not slot_status or slot_status[0] == 'booked':
+
+        if not slot_status or slot_status[0] == "booked":
             conn.close()
             return jsonify({"error": "Slot already taken or unavailable"}), 400
+
         conn.close()
 
         amount_paise = int(amount_rupees) * 100
-        
+
         order_data = {
             "amount": amount_paise,
             "currency": "INR",
             "receipt": f"receipt_slot_{slot_id}",
-            "payment_capture": 1 
+            "payment_capture": 1
         }
-        
+
         razorpay_order = razorpay_client.order.create(data=order_data)
-        
+
         return jsonify({
-            "order_id": razorpay_order['id'],
+            "order_id": razorpay_order["id"],
             "amount": amount_paise,
             "key_id": RAZORPAY_KEY_ID
         }), 200
 
     except Exception as e:
+        print("CREATE ORDER ERROR:", e)
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/verify-payment', methods=['POST'])
