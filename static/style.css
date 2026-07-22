@@ -1820,3 +1820,112 @@ WHY THIS EXISTS
     text-decoration: underline;
     opacity: .9;
 }
+
+/* ===========================
+   PAYMENT MODAL
+=========================== */
+
+.payment-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    backdrop-filter:blur(6px);
+}
+
+.payment-modal.hidden{
+    display:none;
+}
+
+.payment-box{
+    width:420px;
+    max-width:92%;
+    background:#ffffff;
+    border-radius:22px;
+    padding:30px;
+    position:relative;
+    box-shadow:0 25px 60px rgba(0,0,0,.25);
+    animation:fadeUp .25s ease;
+}
+
+.close-btn{
+    position:absolute;
+    top:12px;
+    right:16px;
+    background:none;
+    border:none;
+    font-size:28px;
+    cursor:pointer;
+    color:#666;
+}
+
+.payment-box h2{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.payment-price{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.qr-image{
+    width:220px;
+    display:block;
+    margin:0 auto 20px;
+    border-radius:12px;
+}
+
+.upi-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.upi-row input{
+    flex:1;
+}
+
+.payment-box input{
+    width:100%;
+    padding:12px;
+    margin-bottom:14px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
+.payment-box button{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+#copyUpiBtn{
+    width:auto;
+    padding:0 18px;
+}
+
+#confirmBookingBtn{
+    background:#5D7A68;
+    color:white;
+    margin-top:10px;
+}
+
+@keyframes fadeUp{
+    from{
+        transform:translateY(20px);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}

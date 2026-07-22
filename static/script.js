@@ -30,6 +30,30 @@ const menuToggle = document.getElementById("menuToggle");
 const navLinks = document.querySelector(".nav-links");
 
 // ======================================
+// PAYMENT MODAL
+// ======================================
+
+const paymentModal = document.getElementById("paymentModal");
+
+const closePaymentModalBtn = document.getElementById("closePaymentModal");
+
+const confirmBookingBtn = document.getElementById("confirmBookingBtn");
+
+const copyUpiBtn = document.getElementById("copyUpiBtn");
+
+const upiIdInput = document.getElementById("upiId");
+
+const customerEmail = document.getElementById("customerEmail");
+
+const customerPhone = document.getElementById("customerPhone");
+
+const utrNumber = document.getElementById("utrNumber");
+
+let currentBooking = {
+    slotId: null
+};
+
+// ======================================
 // TOAST NOTIFICATIONS
 // ======================================
 
@@ -272,6 +296,101 @@ if (submitBtn) {
 }
 
 
+// ======================================
+// OPEN PAYMENT MODAL
+// ======================================
+
+function openPaymentModal(slotId){
+
+    currentBooking.slotId = slotId;
+    
+    paymentModal.classList.remove("hidden");
+
+}
+
+
+// ======================================
+// CLOSE PAYMENT MODAL
+// ======================================
+
+function closePaymentModal(){
+
+    paymentModal.classList.add("hidden");
+
+}
+
+// ======================================
+// CONFIRM BOOKING
+// ======================================
+
+confirmBookingBtn.addEventListener("click", async () => {
+
+    const email = customerEmail.value.trim();
+    const phone = customerPhone.value.trim();
+    const utr = utrNumber.value.trim();
+
+    if (!email || !phone || !utr) {
+        showToast("Please fill in all the fields.", "error");
+        return;
+    }
+
+    try {
+
+        const response = await fetch("/api/book-session", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                slot_id: currentBooking.slotId,
+                email: email,
+                phone: phone,
+                utr: utr
+
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+
+            showToast(data.error, "error");
+            return;
+
+        }
+
+        showToast(
+            "🤍 Booking received! We'll verify your payment shortly.",
+            "success"
+        );
+
+        closePaymentModal();
+
+        customerEmail.value = "";
+        customerPhone.value = "";
+        utrNumber.value = "";
+
+        loadSlots();
+
+    }
+    catch (err) {
+
+        console.error(err);
+
+        showToast(
+            "Something went wrong. Please try again.",
+            "error"
+        );
+
+    }
+
+});
+
 
 // ======================================
 // LOAD STORIES
@@ -495,7 +614,7 @@ async function loadSlots() {
 
                     "click",
 
-                    ()=>createOrder(slot.id)
+                    ()=>openPaymentModal(slot.id)
 
                 );
 
@@ -533,134 +652,6 @@ async function loadSlots() {
 
 }
 
-// ======================================
-// CREATE RAZORPAY ORDER
-// ======================================
-
-async function createOrder(slotId) {
-
-    if (bookingInProgress) return;
-
-    bookingInProgress = true;
-
-    if(!durationSelect){
-    return;
-}
-
-const duration = durationSelect.value;
-
-    const plan = pricing[userCountry] || pricing.DEFAULT;
-
-    const amount = plan[duration];
-
-    try {
-
-        const response = await fetch("/api/create-order", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-                slot_id: slotId,
-
-                amount: amount
-
-            })
-
-        });
-
-        const data = await response.json();
-
-        if (data.error) {
-
-            bookingInProgress = false;
-
-            showToast(data.error,"error");
-
-            return;
-
-        }
-
-        openRazorpay(data, slotId);
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        showToast("Unable to create booking.","error");
-
-    }
-
-}
-
-// ======================================
-// OPEN RAZORPAY
-// ======================================
-
-function openRazorpay(orderData, slotId) {
-
-    const options = {
-
-        key: orderData.key_id,
-
-        amount: orderData.amount,
-
-        currency: "INR",
-
-        name: "Imagine Shelter",
-
-        description: "Anonymous Listening Session",
-
-        order_id: orderData.order_id,
-
-        handler: function (response) {
-
-            showToast(
-    "🤍 Payment successful! Your session has been reserved.",
-    "success"
-);
-
-            console.log(response);
-
-            loadSlots();
-
-            document
-    .getElementById("sessions")
-    .scrollIntoView({
-        behavior: "smooth"
-    });
-
-            bookingInProgress = false;
-
-        },
-
-        modal: {
-         ondismiss: function () {
-
-         bookingInProgress = false;
-
-        }
-    },
-
-        theme: {
-
-            color: "#5D7A68"
-
-        }
-
-    };
-
-    const razor = new Razorpay(options);
-
-    razor.open();
-
-}
 
 // ======================================
 // MOBILE MENU

@@ -1,10 +1,6 @@
 from flask import Flask, render_template, request, jsonify,session
 from flask_cors import CORS
-from dotenv import load_dotenv
 import sqlite3
-import uuid
-import razorpay
-import traceback
 import os
 
 app = Flask(__name__)
@@ -16,28 +12,14 @@ CORS(app, supports_credentials=True)
 
 DATABASE = "database/safespace.db"
 
-# Razorpay credentials (loaded from environment variables)
-load_dotenv()
-
-RAZORPAY_KEY_ID = os.environ.get("RAZORPAY_KEY_ID")
-RAZORPAY_KEY_SECRET = os.environ.get("RAZORPAY_KEY_SECRET")
-
-print("KEY ID:", RAZORPAY_KEY_ID)
-print("SECRET FOUND:", bool(RAZORPAY_KEY_SECRET))
-
 # 🔐 CHOOSE YOUR ADMIN PASSWORD HERE
 ADMIN_PASSWORD = "Lilith111@@" 
-
-try:
-    razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
-except Exception as e:
-    print(f"Warning: Razorpay initialization failed. Error: {e}")
-    razorpay_client = None
 
 # --- DATABASE INITIALIZATION ---
 def init_db():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS vents (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,6 +27,7 @@ def init_db():
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     ''')
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS replies (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -54,17 +37,38 @@ def init_db():
             FOREIGN KEY (vent_id) REFERENCES vents (id)
         )
     ''')
+
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS bookings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             date TEXT NOT NULL,
             time TEXT NOT NULL,
             status TEXT DEFAULT 'available',
-            room_link TEXT DEFAULT NULL
+            room_link TEXT DEFAULT NULL,
+            customer_email TEXT,
+            customer_phone TEXT,
+            utr TEXT,
+            payment_status TEXT DEFAULT 'payment_pending'
         )
     ''')
-    
+
+    new_columns = [
+        ("customer_email", "TEXT"),
+        ("customer_phone", "TEXT"),
+        ("utr", "TEXT"),
+        ("payment_status", "TEXT DEFAULT 'payment_pending'")
+    ]
+
+    for column_name, column_type in new_columns:
+        try:
+            cursor.execute(
+                f"ALTER TABLE bookings ADD COLUMN {column_name} {column_type}"
+            )
+        except sqlite3.OperationalError:
+            pass
+
     cursor.execute("SELECT COUNT(*) FROM bookings")
+
     if cursor.fetchone()[0] == 0:
         default_slots = [
             ("Today", "4:00 PM"),
@@ -73,10 +77,15 @@ def init_db():
             ("Tomorrow", "10:00 AM"),
             ("Tomorrow", "2:00 PM")
         ]
-        cursor.executemany("INSERT INTO bookings (date, time, status) VALUES (?, ?, 'available')", default_slots)
-        
+
+        cursor.executemany(
+            "INSERT INTO bookings (date, time, status) VALUES (?, ?, 'available')",
+            default_slots
+        )
+
     conn.commit()
     conn.close()
+
 
 # --- ADMIN SECURITY CHECK UTILITY ---
 def is_admin_authenticated():
@@ -234,90 +243,62 @@ def get_slots():
         })
     return jsonify(result), 200
 
-@app.route('/api/create-order', methods=['POST'])
-def create_order():
-    if not razorpay_client:
-        return jsonify({"error": "Razorpay client is not configured correctly."}), 500
+@app.route('/api/book-session', methods=['POST'])
+def book_session():
 
     data = request.get_json()
-    slot_id = data.get('slot_id')
-    amount_rupees = data.get('amount')
 
-    try:
-        conn = sqlite3.connect(DATABASE)
-        cursor = conn.cursor()
+    slot_id = data.get("slot_id")
+    email = data.get("email")
+    phone = data.get("phone")
+    utr = data.get("utr")
 
-        cursor.execute(
-            "SELECT status FROM bookings WHERE id = ?",
-            (slot_id,)
-        )
+    if not email or not phone or not utr:
+        return jsonify({"error": "Please complete all fields."}), 400
 
-        slot_status = cursor.fetchone()
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
 
-        if not slot_status or slot_status[0] == "booked":
-            conn.close()
-            return jsonify({"error": "Slot already taken or unavailable"}), 400
+    cursor.execute(
+        "SELECT status FROM bookings WHERE id=?",
+        (slot_id,)
+    )
 
+    slot = cursor.fetchone()
+
+    if not slot:
         conn.close()
+        return jsonify({"error":"Slot not found."}),404
 
-        amount_paise = int(amount_rupees) * 100
-
-        order_data = {
-            "amount": amount_paise,
-            "currency": "INR",
-            "receipt": f"receipt_slot_{slot_id}",
-            "payment_capture": 1
-        }
-
-        razorpay_order = razorpay_client.order.create(data=order_data)
-
-        return jsonify({
-            "order_id": razorpay_order["id"],
-            "amount": amount_paise,
-            "key_id": RAZORPAY_KEY_ID
-        }), 200
-
-    except Exception as e:
-        print("CREATE ORDER ERROR:", e)
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
-
-@app.route('/api/verify-payment', methods=['POST'])
-def verify_payment():
-    if not razorpay_client:
-        return jsonify({"error": "Razorpay client is not configured."}), 500
-
-    data = request.get_json()
-    slot_id = data.get('slot_id')
-    payment_id = data.get('razorpay_payment_id') 
-    order_id = data.get('razorpay_order_id')
-    signature = data.get('razorpay_signature')
-
-    try:
-        params_dict = {
-            'razorpay_order_id': order_id,
-            'razorpay_payment_id': payment_id,
-            'razorpay_signature': signature
-        }
-        
-        razorpay_client.utility.verify_payment_signature(params_dict)
-        
-        conn = sqlite3.connect(DATABASE)
-        cursor = conn.cursor()
-        
-        random_room_name = f"SafeSpace-{uuid.uuid4().hex[:12]}"
-        jitsi_url = f"https://meet.jit.si/{random_room_name}"
-        
-        cursor.execute("UPDATE bookings SET status = 'booked', room_link = ? WHERE id = ?", (jitsi_url, slot_id))
-        conn.commit()
+    if slot[0] == "booked":
         conn.close()
-        
-        return jsonify({"status": "success", "room_link": jitsi_url}), 200
+        return jsonify({"error":"This slot has already been booked."}),400
 
-    except razorpay.errors.SignatureVerificationError:
-        return jsonify({"error": "Payment token signature verification failed."}), 400
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    cursor.execute("""
+        UPDATE bookings
+        SET
+            status='booked',
+            customer_email=?,
+            customer_phone=?,
+            utr=?,
+            payment_status='verification_pending'
+        WHERE id=?
+    """,
+    (
+        email,
+        phone,
+        utr,
+        slot_id
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({
+        "status":"success"
+    }),200
+
+
     
 # Serve the main homepage
 @app.route('/')

@@ -920,11 +920,78 @@ content="https://imagine-shelter.onrender.com/static/images/og-image.png">
 =========================== -->
 
 <!-- Toast Notification -->
-
 <div id="toast" class="toast"></div>
+
+<!-- =======================================
+     PAYMENT MODAL
+======================================= -->
+
+<div id="paymentModal" class="payment-modal hidden">
+
+    <div class="payment-box">
+
+        <button id="closePaymentModal" class="close-btn">&times;</button>
+
+        <h2>Complete Your Booking 🤍</h2>
+
+        <p class="payment-price">
+            Session Fee: <strong>₹199</strong>
+        </p>
+
+        <img
+            src="{{ url_for('static', filename='images/gpay-qr.jpeg') }}"
+            alt="Google Pay QR"
+            class="qr-image"
+        >
+
+        <div class="upi-section">
+
+            <label>UPI ID</label>
+
+            <div class="upi-row">
+
+                <input
+                    id="upiId"
+                    type="text"
+                    value="kristybhattacharyya1-1@oksbi"
+                    readonly
+                >
+
+                <button id="copyUpiBtn">
+                    Copy
+                </button>
+
+            </div>
+
+        </div>
+
+        <input
+            id="customerEmail"
+            type="email"
+            placeholder="Email Address"
+        >
+
+        <input
+            id="customerPhone"
+            type="tel"
+            placeholder="Phone Number"
+        >
+
+        <input
+            id="utrNumber"
+            type="text"
+            placeholder="UTR / Transaction ID"
+        >
+
+        <button id="confirmBookingBtn">
+            Confirm Booking
+        </button>
+
+    </div>
+
+</div>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
-
 </html>
