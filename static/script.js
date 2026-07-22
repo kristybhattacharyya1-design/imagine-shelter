@@ -57,6 +57,25 @@ closePaymentModalBtn.addEventListener("click", () => {
     closePaymentModal();
 });
 
+const upiId = document.getElementById("upiId");
+
+copyUpiBtn.addEventListener("click", async () => {
+    try {
+        await navigator.clipboard.writeText(upiId.value);
+
+        copyUpiBtn.textContent = "Copied ✓";
+
+        setTimeout(() => {
+            copyUpiBtn.textContent = "Copy";
+        }, 2000);
+
+        showToast("UPI ID copied!", "success");
+
+    } catch (err) {
+        showToast("Couldn't copy. Please copy it manually.", "error");
+    }
+});
+
 // ======================================
 // TOAST NOTIFICATIONS
 // ======================================
