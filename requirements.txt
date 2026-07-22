@@ -1,6 +1,5 @@
 Flask
 Flask-Cors
-razorpay
 gunicorn
 requests
 python-dotenv
