@@ -938,11 +938,13 @@ content="https://imagine-shelter.onrender.com/static/images/og-image.png">
             Session Fee: <strong>₹199</strong>
         </p>
 
-        <img
-            src="{{ url_for('static', filename='images/gpay-qr.jpeg') }}"
-            alt="Google Pay QR"
-            class="qr-image"
-        >
+          <div class="qr-card">
+    <img
+        src="{{ url_for('static', filename='images/gpay-qr.jpeg') }}"
+        class="qr-image"
+        alt="Google Pay QR"
+    >
+         </div>
 
         <div class="upi-section">
 

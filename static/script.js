@@ -53,6 +53,10 @@ let currentBooking = {
     slotId: null
 };
 
+closePaymentModalBtn.addEventListener("click", () => {
+    closePaymentModal();
+});
+
 // ======================================
 // TOAST NOTIFICATIONS
 // ======================================
